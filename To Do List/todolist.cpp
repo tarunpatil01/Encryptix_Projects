@@ -2,7 +2,6 @@
 #include <cstdlib>
 #include <string>
 
-// Renaming structure to avoid the repetitive use of struct keyword
 struct ToDo {
     // string as data part
     std::string buffer;
@@ -24,16 +23,13 @@ void createtodo();
 void deletetodo();
 void adjustcount();
 
-// Driver Code
+
 int main() {
     int choice;
     interface();
 
     while (true) {
-        
-
-        // // Clear the console
-        // system("cls");
+    
 
         std::cout << "1. To see your ToDo list\n";
         std::cout << "2. To create new ToDo\n";
@@ -66,9 +62,9 @@ int main() {
     return 0;
 }
 
-// Code for Splash screen
+// Code for Splash screen   
 void interface() {
-    // system("color 4F");
+    
     std::cout << "\n\n\n\n";
     std::cout << "\t~~~~~~~~~~~~~~~~~~~~~"
               << "~~~~~~~~~~~~~~~~~~~~~~~~"
