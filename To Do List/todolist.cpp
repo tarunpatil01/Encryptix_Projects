@@ -3,41 +3,33 @@
 #include <string>
 
 struct ToDo {
-    // string as data part
     std::string buffer;
-
-    // Pointer part to access addresses
     ToDo* next;
-
-    // Count variable for counting the number of nodes
     int count;
+    bool completed;  // New field to track completion status
 };
 
-// Declare start pointer as null in the beginning
 ToDo* start = NULL;
 
-// Function prototypes
 void interface();
 void seetodo();
 void createtodo();
 void deletetodo();
+void markAsCompleted();  // New function to mark tasks as completed
 void adjustcount();
-
 
 int main() {
     int choice;
     interface();
 
     while (true) {
-    
-
         std::cout << "1. To see your ToDo list\n";
         std::cout << "2. To create new ToDo\n";
         std::cout << "3. To delete your ToDo\n";
-        std::cout << "4. Exit";
+        std::cout << "4. To mark a task as completed\n";
+        std::cout << "5. Exit\n";
         std::cout << "\n\n\nEnter your choice\t:\t";
 
-        // Choice from the user
         std::cin >> choice;
         std::cin.ignore(); // Ignore newline character after integer input
 
@@ -52,6 +44,9 @@ int main() {
             deletetodo();
             break;
         case 4:
+            markAsCompleted();
+            break;
+        case 5:
             exit(0);
             break;
         default:
@@ -62,65 +57,28 @@ int main() {
     return 0;
 }
 
-// Code for Splash screen   
 void interface() {
-    
-    std::cout << "\n\n\n\n";
-    std::cout << "\t~~~~~~~~~~~~~~~~~~~~~"
-              << "~~~~~~~~~~~~~~~~~~~~~~~~"
-              << "~~~~~~~~~~~~~~~~~~~~~~~~"
-              << "~~~~~~~~~~~~~~~~~~~~~~~"
-              << "~~~~~~~~~~\n";
-    std::cout << "\t~~~~~~~~~~~~~~~~~~~~~~"
-              << "~~~~~~~~~~~~~~~~~~~~~~~"
-              << "~~~~~~~~~~~~~~~~~~~~~~~"
-              << "~~~~~~~~~~~~~~~~~~~~~~~~"
-              << "~~~~~~~~~~\n\n";
-    std::cout << "\t} : } : } : } : } : } "
-              << ": } : } : } : "
-              << "WELCOME TO the TODO APP "
-              << "	 : { : { : { : { : { "
-              << ": { : { : { : {\n\n";
-    std::cout << "\t~~~~~~~~~~~~~~~~~~~~~"
-              << "~~~~~~~~~~~~~~~~~~~~~~~~"
-              << "~~~~~~~~~~~~~~~~~~~~~~~~~"
-              << "~~~~~~~~~~~~~~~~~~~~~~"
-              << "~~~~~~~~~~\n";
-    std::cout << "\t~~~~~~~~~~~~~~~~~~~~~~"
-              << "~~~~~~~~~~~~~~~~~~~~~~~"
-              << "~~~~~~~~~~~~~~~~~~~~~~~"
-              << "~~~~~~~~~~~~~~~~~~~~~~~~"
-              << "~~~~~~~~~~\n";
-
-    // Pausing screen until user presses any key
+    std::cout << "\n\n";
+    std::cout << "\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+    std::cout << "\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+    std::cout << "\t} : } : } : } : } : } : } : } : } : WELCOME TO the TODO APP : { : { : { : { : { : { : { : {\n\n";
+    std::cout << "\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+    std::cout << "\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
     system("pause");
 }
 
-// To view all the todos
 void seetodo() {
-    // Clearing the console
     system("cls");
+    ToDo* temp = start;
 
-    // Pointer to the node for traversal
-    ToDo* temp;
-
-    // temp is made to point the start of linked list
-    temp = start;
-
-    // Condition for empty linked list
     if (start == NULL) {
         std::cout << "\n\nEmpty ToDo \n\n";
     }
 
-    // Traverse until last node
     while (temp != NULL) {
-        // Print number of the node
-        std::cout << temp->count << ".)";
-
-        // Print data of the node
-        std::cout << temp->buffer << "\n";
-
-        // Going to next node
+        std::cout << temp->count << ".) ";
+        std::cout << temp->buffer;
+        std::cout << " [" << (temp->completed ? "Completed" : "Pending") << "]\n";  // Display status
         temp = temp->next;
     }
 
@@ -128,16 +86,11 @@ void seetodo() {
     system("pause");
 }
 
-// Function to insert a node todo
 void createtodo() {
-    // Choose choice from user
     char c;
-
-    // Pointers to node
     ToDo *add, *temp;
     system("cls");
 
-    // Infinite loop which will break if "n" is pressed
     while (true) {
         std::cout << "\nWant to add new ToDo ?? Press 'y' for Yes and 'n' for No :-)\n\t\t";
         std::cin >> c;
@@ -146,77 +99,46 @@ void createtodo() {
         if (c == 'n') {
             break;
         } else {
-            // If start node is NULL
             if (start == NULL) {
-                // Dynamically allocating memory to the newly created node
                 add = new ToDo();
-
-                // Using add pointer to create linked list
                 start = add;
                 std::cout << "\nType it.....\n";
-
-                // Input from user
                 std::getline(std::cin, add->buffer);
-
-                // As first input so count is 1
                 add->count = 1;
-
-                // As first node so start's next is NULL
+                add->completed = false;  // Initialize as not completed
                 start->next = NULL;
             } else {
                 temp = new ToDo();
                 std::cout << "\nType it.....\n";
                 std::getline(std::cin, temp->buffer);
-
-                // Insertion is at last so pointer part is NULL
                 temp->next = NULL;
-
-                // add is now pointing newly created node
+                temp->completed = false;  // Initialize as not completed
                 add->next = temp;
                 add = add->next;
             }
-
-            // Using the concept of insertion at the end, adding a todo
-
-            // Calling function to adjust the count variable
             adjustcount();
         }
     }
 }
 
-// Function to delete the todo
 void deletetodo() {
     system("cls");
-
-    // To get the numbering of the todo to be deleted
     int x;
-
     ToDo *del, *temp;
     std::cout << "\nEnter the ToDo's number that you want to remove.\n\t\t";
 
-    // Checking empty condition
     if (start == NULL) {
         std::cout << "\n\nThere is no ToDo for today :-)\n\n\n";
     } else {
         std::cin >> x;
 
-        // del will point to start
         del = start;
-
-        // temp will point to start's next so that traversal and deletion is achieved easily
         temp = start->next;
 
-        // Running infinite loop so that user can delete and asked again for choice
         while (true) {
-            // When the values matches, delete the node
             if (del->count == x) {
-                // When the node to be deleted is first node
                 start = start->next;
-
-                // Deallocating the memory of the deleted node
                 delete del;
-
-                // Adjusting the count when node is deleted
                 adjustcount();
                 break;
             }
@@ -237,14 +159,37 @@ void deletetodo() {
     system("pause");
 }
 
-// Function to adjust the numbering of the nodes
-void adjustcount() {
-    // For traversal, using a node pointer
-    ToDo* temp;
-    int i = 1;
-    temp = start;
+void markAsCompleted() {
+    system("cls");
+    int x;
+    std::cout << "\nEnter the ToDo's number that you want to mark as completed.\n\t\t";
 
-    // Running loop until last node and numbering it one by one
+    if (start == NULL) {
+        std::cout << "\n\nThere is no ToDo for today :-)\n\n\n";
+    } else {
+        std::cin >> x;
+        ToDo* temp = start;
+
+        while (temp != NULL) {
+            if (temp->count == x) {
+                temp->completed = true;  // Mark as completed
+                std::cout << "Task " << x << " marked as completed.\n";
+                break;
+            }
+            temp = temp->next;
+        }
+
+        if (temp == NULL) {
+            std::cout << "Task not found.\n";
+        }
+    }
+    system("pause");
+}
+
+void adjustcount() {
+    ToDo* temp = start;
+    int i = 1;
+
     while (temp != NULL) {
         temp->count = i;
         i++;
