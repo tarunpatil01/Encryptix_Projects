@@ -13,4 +13,4 @@ I have made 4 projects out of 5 given which are as follows:
     Basic Tic Tac Toe game between Two players<br>
     
 4.To Do List<br>
-    A proirity based List for better Time & work management<br>
+    Implemented a priority-based to-do list with progress status traking<br>
