@@ -6,7 +6,7 @@ int main(){
     char choice ;
     cout<< "Calculator:\n"<< "\n Insert two no to perform operation"<<endl;
     cin>>x>>y;
-    cout<< "Which operation you want to performed ";
+    cout<< "Which operation you want to performed for "<< x << " "<< y ;
     cin >> choice;
     switch (choice)
     {
