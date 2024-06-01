@@ -2474,7 +2474,7 @@ void Poster ()
 // Function to apply Cyberpunk filter
 void Cyberpunk ()
 {
-    //int Poster_level = 8;
+    int Poster_level = 8;
     for (int i = 0; i < SIZE; ++i)
     {
         for (int j = 0; j < SIZE; ++j)

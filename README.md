@@ -14,3 +14,6 @@ I have made 4 projects out of 5 given which are as follows:
     
 4.To Do List<br>
     Implemented a priority-based to-do list with progress status traking<br>
+
+5.Image processing Tool<br>
+    A tool to perform various operations on images<br>
